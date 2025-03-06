@@ -112,7 +112,6 @@ service-identity==21.1.0
 setuptools==69.5.1
 shapely==2.0.1
 simple-websocket==1.1.0
-sip==
 pure_eval==0.2.3
 Pygments==2.18.0
 pyls-spyder==0.4.0
