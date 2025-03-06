@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Mon Top 10</title>
+</head>
+<body>
+    <h1>Mon top 10</h1>
+    <div id="retour">
+        <a href="{{ url_for('index') }}">Retour à la page d'accueil</a>
+    </div>
+
+    <ul>
+        {% if top_10 %}
+            {% for anime in top_10 %}
+                <li>
+                    <h3>{{anime}}</h3>
+                    <br>
+                    <img src="{{ url_for('static', filename='images/' + anime|lower|replace(' ', '_')|replace("'", '')|replace(':', '')|replace("-", '_') + '.jpg') }}" alt="{{ anime }}">
+
+                    <form method="POST" action="{{ url_for('remove_from_top_10', anime_title=anime) }}">
+                        <button type="submit">Retirer de mon top 10</button>
+                    </form>
+                </li>
+            {% endfor %}
+        {% else %}
+            <p>Ton top 10 est vide!</p>
+        {% endif %}
+    </ul>
+
+</body>
+</html>

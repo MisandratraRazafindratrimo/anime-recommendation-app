@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Swiper.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+    <title>Animes Romance</title>
+</head>
+<body>
+    <br>
+    <br>
+    <div id="logout">
+        <a href="{{ url_for('logout') }}" class="logout-button">
+            <button type="button">Déconnexion</button>
+        </a>
+    </div>
+    <div id="chat">
+        <a href="{{ url_for('chat') }}">
+            <button type="button">Chat
+                <img src="{{ url_for('static', filename='images/chat.gif') }}" >
+            </button>
+        </a>
+    </div>
+    
+
+    <h1>Animes Romance</h1>
+    <h3>Mon Top 10 Animes</h3>
+
+    <div class="scroll-container">
+        <div class="anime-container">
+            {% if user %}
+                {% for anime in user.top_animes %}
+                <div class="anime-item">
+                    <img src="{{ url_for('static', filename='images/' + anime.anime_title|lower|replace(' ', '_')|replace("'", '')|replace(':', '')|replace("-", '_') + '.jpg') }}" alt="{{ anime.anime_title }}" width="150">
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>Vous devez être connecté pour voir votre Top 10.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="liens">
+        <div id="top_10">
+            <a href="{{ url_for('top_10') }}">Voir mon top 10 Animes Romance</a>
+        </div>
+        <div id="watchlist">
+            <a href="{{ url_for('watchlist') }}">Voir ma Watchlist</a>
+        </div>
+    </div>
+
+    <!-- Formulaire de sélection de genre -->
+    <form method="POST" action="/recommend" id="genre_select">
+        <label for="genre">Sélectionner un genre :</label>
+        <select name="genre" id="genre">
+            <option value="">--Choisir un genre--</option>
+            <option value="">Tous les animes romance</option>
+            <option value="Drama">Drama</option>
+            <option value="Slice of Life">Slice of Life</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Supernatural">Supernatural</option>
+            <option value="School">School</option>
+            <option value="Mystery">Mystery</option>
+            <option value="Isekai">Isekai</option>
+            <option value="Historical">Historical</option>
+            <option value="Action">Action</option>
+            <option value="Psychology">Psychology</option>
+        </select>
+        <button type="submit">Rechercher</button>
+    </form>
+
+    <h2>Tous les animes correspondants</h2>
+    <ul id="anime_list">
+        {% for anime in animes %}
+            <li>
+                <h3>{{ anime.title }}</h3>
+        
+                <p>Genres: {{ anime.genres | join(', ') }}</p>
+                <img src="{{ url_for('static', filename='images/' + anime.image) }}" alt="{{ anime.title }}" style="width: 200px;">
+                <div class="button" type="button" id="li_button">
+    
+                    {% if user and anime.title in user.top_animes|map(attribute='anime_title') %}
+                        <form method="POST" action="{{ url_for('remove_from_top_10', anime_title=anime.title) }}">
+                            <button type="submit">Retirer de mon top 10</button>
+                        </form>
+                    {% elif user %}
+                        <form method="POST" action="{{ url_for('add_to_top_10', anime_title=anime.title) }}">
+                            <button type="submit">Ajouter à mon top 10</button>
+                        </form>
+                    {% endif %}
+        
+                    {% if user and anime.title in user.watchlist|map(attribute='anime_title') %}
+                        <form method="POST" action="{{ url_for('remove_from_watchlist', anime_title=anime.title) }}">
+                            <button type="submit">Retirer de ma Watchlist</button>
+                        </form>
+                    {% elif user %}
+                        <form method="POST" action="{{ url_for('add_to_watchlist', anime_title=anime.title) }}">
+                            <button type="submit">Ajouter à ma Watchlist</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <br>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

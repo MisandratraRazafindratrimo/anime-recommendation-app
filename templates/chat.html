@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Mes Messages</h1>
+    </header>
+    <div id="chat-container">
+        <div id="chat-box">
+            {% for message in messages %}
+                <div class="message">
+                    <strong>{{ message.user.username }}:</strong> {{ message.content }} <br>
+                    <small>{{ message.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                    <form method="POST" action="{{ url_for('delete_message', message_id=message.id) }}" style="display:inline;">
+                        <button onclick="return confirm('Voulez-vous vraiment supprimer ce message ?');" id="send_button">Supprimer</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+
+        <form method="POST" action="{{ url_for('send_message') }}" class="chat-form">
+            <textarea name="content" placeholder="Écrivez un message..." required></textarea>
+            <button type="submit" >Envoyer</button>
+        </form>
+
+        <div id="home-button">
+            <a href="{{ url_for('index') }}">
+                <button type="button">Retour à la page d'accueil</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

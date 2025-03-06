@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Connexion</title>
+</head>
+<body>
+    
+    
+
+   
+        <form method="POST" id="login">
+            <h1>Identification</h1>
+            <div id="container">
+                <label for="username">Nom d'utilisateur :</label>
+                <input type="text" name="username" required>
+                <br>
+                <br>
+                <label for="password">Mot de passe :</label>
+                <input type="password" name="password" required>
+                <br>
+            
+            <br>
+            <br>
+            <button type="submit">Se connecter</button>
+            <br>
+            <br>
+            <br>
+        </form>
+        <br>
+
+        <br>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="messages">
+            {% for category, message in messages %}
+                <div class="message {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+</html>
