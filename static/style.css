@@ -7,8 +7,7 @@ body {
     background-image: url('images/background.jpg'); /* Remplace par le chemin de ton image */
     background-size: cover; /* Cela permet de couvrir toute la page */
     background-position: center; /* Pour centrer l'image */
-    background-attachment: fixed; 
-    background-color: rgba(241, 221, 236, 0.6); /* Adjusted background color with opacity */
+    background-attachment: fixed; /* Adjusted background color with opacity */
     color: #333;
     box-sizing: border-box;
 }
