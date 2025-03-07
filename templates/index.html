@@ -96,12 +96,12 @@
                     {% endif %}
         
                     {% if user and anime.title in user.watchlist|map(attribute='anime_title') %}
-                        <form method="POST" action="{{ url_for('remove_from_watchlist', anime_title=anime.title) }}" class="watchlist-form">
-                            <button type="submit" >Retirer de ma Watchlist</button>
+                        <form method="POST" action="{{ url_for('remove_from_watchlist', anime_title=anime.title) }}">
+                            <button type="submit">Retirer de ma Watchlist</button>
                         </form>
                     {% elif user %}
-                        <form method="POST" action="{{ url_for('add_to_watchlist', anime_title=anime.title) }}" class="watchlist-form">
-                            <button type="submit" class="add-to-watchlist">Ajouter à ma Watchlist</button>
+                        <form method="POST" action="{{ url_for('add_to_watchlist', anime_title=anime.title) }}">
+                            <button type="submit">Ajouter à ma Watchlist</button>
                         </form>
                     {% endif %}
                 </div>
@@ -116,7 +116,7 @@
     <!-- Ajout du script AJAX -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).on('submit', '.top-10-form', '.watchlist-form', function(e) {
+        $(document).on('submit', '.top-10-form', function(e) {
             e.preventDefault();
             
             var form = $(this);
@@ -133,7 +133,7 @@
                     }
                 },
                 error: function() {
-                    alert('Une erreur est survenue.');
+                    alert('Ton top 10 est déjà complet.');
                 }
             });
         });
