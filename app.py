@@ -254,7 +254,23 @@ def add_to_top_10(anime_title):
             db.session.add(new_top_anime)
             db.session.commit()
     
-    return redirect(url_for('top_10'))
+    # Générer un extrait HTML mis à jour pour cet anime
+    anime_html = ""
+    anime = next(a for a in animes_data if a['title'] == anime_title)  # Trouver l'anime par titre
+    if anime['title'] in [a.anime_title for a in user.top_animes]:
+        anime_html += f"""
+            <form method="POST" action="{url_for('remove_from_top_10', anime_title=anime['title'])}">
+                <button type="submit">Retirer de mon top 10</button>
+            </form>
+        """
+    else:
+        anime_html += f"""
+            <form method="POST" action="{url_for('add_to_top_10', anime_title=anime['title'])}">
+                <button type="submit">Ajouter à mon top 10</button>
+            </form>
+        """
+    
+    return jsonify({'status': 'success', 'new_button_html': anime_html})
 
 
 @app.route('/remove_from_top_10/<anime_title>', methods=['POST'])
@@ -292,7 +308,22 @@ def add_to_watchlist(anime_title):
         db.session.add(new_watchlist_item)
         db.session.commit()
     
-    return redirect(url_for('watchlist'))
+    anime_html = ""
+    anime = next(a for a in animes_data if a['title'] == anime_title)  # Trouver l'anime par titre
+    if anime['title'] in [a.anime_title for a in user.top_animes]:
+        anime_html += f"""
+            <form method="POST" action="{url_for('remove_from_watchlist', anime_title=anime['title'])}">
+                <button type="submit">Retirer de ma Watchlist</button>
+            </form>
+        """
+    else:
+        anime_html += f"""
+            <form method="POST" action="{url_for('add_to_watchlist', anime_title=anime['title'])}">
+                <button type="submit">Ajouter à ma Watchlist</button>
+            </form>
+        """
+    
+    return jsonify({'status': 'success', 'new_button_html': anime_html})
 
 
 @app.route('/remove_from_watchlist/<anime_title>', methods=['POST'])
