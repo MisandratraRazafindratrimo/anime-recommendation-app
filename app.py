@@ -308,22 +308,7 @@ def add_to_watchlist(anime_title):
         db.session.add(new_watchlist_item)
         db.session.commit()
     
-    anime_html = ""
-    anime = next(a for a in animes_data if a['title'] == anime_title)  # Trouver l'anime par titre
-    if anime['title'] in [a.anime_title for a in user.top_animes]:
-        anime_html += f"""
-            <form method="POST" action="{url_for('remove_from_watchlist', anime_title=anime['title'])}">
-                <button type="submit">Retirer de ma Watchlist</button>
-            </form>
-        """
-    else:
-        anime_html += f"""
-            <form method="POST" action="{url_for('add_to_watchlist', anime_title=anime['title'])}">
-                <button type="submit">Ajouter à ma Watchlist</button>
-            </form>
-        """
-    
-    return jsonify({'status': 'success', 'new_button_html': anime_html})
+    return redirect(url_for('index'))
 
 
 @app.route('/remove_from_watchlist/<anime_title>', methods=['POST'])
@@ -347,6 +332,9 @@ def watchlist():
     user = User.query.get(session['user_id'])
     watchlist = [anime.anime_title for anime in user.watchlist]
     return render_template('watchlist.html', watchlist=watchlist)
+
+
+
 
 
 
