@@ -270,7 +270,8 @@ def add_to_top_10(anime_title):
             </form>
         """
     
-    return jsonify({'status': 'success', 'new_button_html': anime_html})
+    return jsonify({'status': 'success', 'html': anime_html})
+
 
 
 @app.route('/remove_from_top_10/<anime_title>', methods=['POST'])
