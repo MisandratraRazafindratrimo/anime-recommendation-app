@@ -80,16 +80,3 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
-function updateTop10() {
-    fetch('/add_to_top_10/' + anime_title, {
-        method: 'POST',
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Mettez à jour le contenu de la liste des top 10
-        document.getElementById('top-10-list').innerHTML = data.html;
-    })
-    .catch(error => {
-        console.error('Erreur lors de la mise à jour du top 10:', error);
-    });
-}
